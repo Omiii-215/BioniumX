@@ -5,7 +5,7 @@ colorFrom: indigo
 colorTo: purple
 sdk: streamlit
 sdk_version: 1.40.0
-app_file: examples/app.py
+app_file: dashboard/app.py
 pinned: false
 ---
 
