@@ -20,13 +20,14 @@ def get_template(molecule: str, resolving_power: float = 100):
     """
     Get a theoretical transmission/emission template for a molecule.
 
-    In a full implementation, this would fetch from a database like ExoMol or HITRAN.
-    For this library version, we generate a synthetic template for demonstration.
+    This function uses the RADIS library to query the Harvard HITRAN 
+    database in real-time, computing the Voigt-broadened high-resolution 
+    cross section at typical exoplanetary conditions (T=1000K).
 
     Parameters
     ----------
     molecule : str
-        The chemical formula (e.g., 'H2O', 'CH4').
+        The chemical formula (e.g., 'H2O', 'CH4', 'CO2').
     resolving_power : float, optional
         The spectral resolving power R = λ/Δλ of the requested template. Default 100.
 
@@ -35,16 +36,12 @@ def get_template(molecule: str, resolving_power: float = 100):
     wavelength : np.ndarray
         Template wavelength grid (microns).
     depth : np.ndarray
-        Template transit depth or cross-section (normalized).
+        Template absorbance cross-section.
 
     Raises
     ------
     ValueError
         If the molecule is not in the catalog.
-
-    Examples
-    --------
-    >>> wl, depth = get_template("H2O", resolving_power=100)
     """
     if molecule not in BIOSIGNATURE_MOLECULES:
         raise ValueError(f"Molecule {molecule} not found in catalog.")
@@ -53,18 +50,46 @@ def get_template(molecule: str, resolving_power: float = 100):
     
     # Generate a logarithmic wavelength grid based on resolving power
     n_points = int(resolving_power * np.log(wmax / wmin))
-    wl = np.geomspace(wmin, wmax, n_points)
+    wl_grid = np.geomspace(wmin, wmax, n_points)
+
+    try:
+        from radis import calc_spectrum
+    except ImportError:
+        raise ImportError(
+            "The 'radis' package is required to fetch real HITRAN physics. "
+            "Install it via `pip install bionium-x[science]` or `pip install radis`."
+        )
+
+    # Convert wavelength bounds from microns to wavenumbers (cm^-1)
+    # nu (cm^-1) = 10000 / lambda (um)
+    nu_min = 10000.0 / wmax
+    nu_max = 10000.0 / wmin
+
+    print(f"RADIS: Fetching high-resolution HITRAN data for {molecule}...")
+    # Calculate the spectrum using Harvard's HITRAN database
+    # Tgas = 1000 K (typical Hot Jupiter/sub-Neptune)
+    s = calc_spectrum(
+        wavenum_min=nu_min,
+        wavenum_max=nu_max,
+        molecule=molecule,
+        isotope="1",
+        pressure=0.1,  # bar (typical transit probing pressure)
+        Tgas=1000.0,   # K
+        databank="hitran",
+        truncation=5.0, 
+        neighbour_lines=5.0,
+        warnings={"AccuracyError": "ignore", "MissingSelfBroadeningWarning": "ignore"}
+    )
     
-    # Generate a synthetic "template" with some peaks
-    # (In reality, use `pooch` to download cross-sections)
-    np.random.seed(hash(molecule) % 100000)
-    n_lines = 5
-    centers = np.random.uniform(wmin, wmax, n_lines)
-    widths = centers / resolving_power
-    depths = np.random.uniform(0.1, 1.0, n_lines)
+    # Retrieve the computed spectrum arrays
+    # We want wavelength (um) and absorbance
+    wl_radis, absorbance = s.get("absorbance", wunit="um")
 
-    depth = np.zeros_like(wl)
-    for c, w, d in zip(centers, widths, depths):
-        depth += d * np.exp(-0.5 * ((wl - c) / w) ** 2)
+    # Interpolate the ultra-high-resolution RADIS spectrum down to our requested resolving power
+    depth_interp = np.interp(wl_grid, wl_radis, absorbance)
 
-    return wl, depth
+    # Normalize to 0-1 for template cross-correlation
+    if np.max(depth_interp) > 0:
+        depth_interp = depth_interp / np.max(depth_interp)
+
+    return wl_grid, depth_interp
