@@ -1,4 +1,4 @@
-# Bionium-X 🌌
+# Bionium-X
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://python.org)
@@ -8,7 +8,7 @@
 
 By parsing highly-dimensional signals from orbital telescopes, the system probabilistically estimates the presence of critical biological precursors—thereby advancing the automated search for extraterrestrial life.
 
-## 🔭 Key Scientific Features
+## Key Scientific Features
 
 * **Real Observational Data Ingestion**: Seamlessly fetch and load real JWST (e.g., WASP-39b) and Hubble spectroscopic data from public archives using the internal `datasets` module.
 * **Astrobiological Physics & Habitability**: Compute Earth Similarity Indices (ESI) and habitability scores constrained by equilibrium temperatures and planetary radii.
@@ -18,7 +18,7 @@ By parsing highly-dimensional signals from orbital telescopes, the system probab
 * **Bayesian Inference**: Compare atmospheric models quantitatively using Bayes Factors to weigh the statistical evidence of biosignatures.
 * **Machine Learning Interoperability**: Experimental 1D CNNs, Random Forests, and Spectral Transformers for automated feature extraction and multi-label probability prediction.
 
-## 📖 Documentation
+## Documentation
 
 Bionium-X comes with a fully automated, comprehensive Sphinx documentation suite featuring visual tutorials and a complete API reference.
 
@@ -29,7 +29,7 @@ make clean && make html
 # Open docs/_build/html/index.html in your browser
 ```
 
-## 🚀 Installation Instructions
+## Installation Instructions
 
 This system is strictly validated for Unix/macOS environments running Python 3.9+.
 
@@ -46,7 +46,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## 💻 Quickstart: Detecting CO₂ in WASP-39b
+## Quickstart: Detecting CO2 in WASP-39b
 
 Here is a simple example of fetching real JWST data, smoothing it, and using cross-correlation to detect Carbon Dioxide:
 
@@ -84,11 +84,11 @@ plt.show()
 
 *(For more advanced examples, including Bayesian model comparison and Habitability scoring, please view the `Core Functionality` section of the Sphinx documentation!)*
 
-## 🧬 Scientific Background
+## Scientific Background
 
 A single atmospheric gas is rarely indicative of life. However, combinations of highly reactive gases that rapidly destroy each other (such as Methane and Oxygen) violate thermodynamic equilibrium. Unless replenished by geologic or continuous biological processes (like photosynthesis and methanogenesis), these combinations would not persist. Bionium-X identifies these disequilibrium thresholds using rigorous statistical models.
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 Bionium-X/
@@ -110,12 +110,12 @@ Bionium-X/
 └── requirements.txt          # Strictly versioned environment dependencies
 ```
 
-## 🤝 Contribution Guidelines
+## Contribution Guidelines
 We welcome collaboration from astrophysicists and deep learning engineers alike! 
 
 Please refer to the `tests/` directory for our `pytest` suite. When adding new modules, ensure you export them in the `__init__.py` files so the Sphinx `autosummary` can automatically generate their API reference pages.
 
-## 📄 License
+## License
 Bionium-X is released under the **MIT License**. See the `LICENSE` file for more details, enabling unrestricted academic and commercial integration with proper attribution.
 
 <div align="center">
