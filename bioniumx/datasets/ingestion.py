@@ -14,14 +14,28 @@ def ingest_csv(filepath):
     Ingest spectrum data from CSV.
     Expected format: columns 'wavelength', 'flux', 'noise' (optional)
     """
-    df = pd.read_csv(filepath)
-    if 'wavelength' not in df.columns or 'flux' not in df.columns:
-        raise ValueError("CSV must contain 'wavelength' and 'flux' columns.")
+    df = pd.read_csv(filepath, comment='#')
+    # Auto-detect JWST ERS column names (e.g. wave, dppm)
+    if 'wave' in df.columns and 'dppm' in df.columns:
+        # JWST ERS specific format
+        # Filter out comments/headers if pandas didn't already
+        df = df[pd.to_numeric(df['wave'], errors='coerce').notnull()]
+        wavelength = df['wave'].astype(float).values
+        # dppm is parts per million, convert to absolute transit depth (0 to 1)
+        flux = df['dppm'].astype(float).values / 1_000_000.0
+        
+        if 'dppm_err' in df.columns:
+            noise = df['dppm_err'].astype(float).values / 1_000_000.0
+        else:
+            noise = np.zeros_like(flux)
+    else:
+        # Standard format fallback
+        if 'wavelength' not in df.columns or 'flux' not in df.columns:
+            raise ValueError("CSV must contain 'wavelength'/'flux' OR 'wave'/'dppm' columns.")
 
-    wavelength = df['wavelength'].values
-    flux = df['flux'].values
-    noise = df['noise'].values if 'noise' in df.columns else np.zeros_like(
-        flux)
+        wavelength = df['wavelength'].values
+        flux = df['flux'].values
+        noise = df['noise'].values if 'noise' in df.columns else np.zeros_like(flux)
 
     return wavelength, flux, noise
 

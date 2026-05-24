@@ -1,13 +1,12 @@
 """
-Bionium-X: Standard Usage Example
----------------------------------
-This script demonstrates how a researcher would use the Bionium-X library
-to analyze an exoplanet's transmission spectrum for biosignatures, entirely
-independent of any UI or dashboard.
+Bionium-X: Real JWST Data Usage Example
+---------------------------------------
+This script demonstrates how to analyze real Exoplanet data.
+Specifically, it fetches the WASP-39b NIRISS transmission spectrum 
+from the JWST Early Release Science program and searches for biosignatures.
 """
-import numpy as np
-
-# 1. Clean imports from the flat, unified API
+from bioniumx.datasets.fetch_real import fetch_wasp39b
+from bioniumx.datasets.ingestion import load_spectrum
 from bioniumx.spectra import TransmissionSpectrum
 from bioniumx.preprocessing import savitzky_golay
 from bioniumx.detection import cross_correlate_template
@@ -15,66 +14,65 @@ from bioniumx.molecules import get_template, compute_disequilibrium
 from bioniumx.physics import habitability_score
 
 def main():
-    print("--- Bionium-X Scientific Library Example ---")
+    print("--- Bionium-X Scientific Library: Real Data Example ---")
 
-    # 1. Initialize a data object (simulating loaded observational data)
-    # Wavelength grid from 1 to 5 microns
-    wl_obs = np.linspace(1.0, 5.0, 500)
-    # Simulated noisy transit depth data with an artificial feature around 1.4 um (water)
-    depth_obs = 0.015 + 1e-4 * np.random.randn(500)
-    depth_obs += 0.005 * np.exp(-0.5 * ((wl_obs - 1.4) / 0.05) ** 2)
-    err_obs = 1e-5 * np.ones(500)
+    # 1. Fetch real JWST data via Pooch
+    print("Fetching real WASP-39b JWST NIRISS transmission spectrum...")
+    csv_path = fetch_wasp39b()
 
+    # 2. Ingest the data
+    # The ingestion pipeline handles the 'dppm' to absolute transit depth conversion
+    wavelength, flux, noise = load_spectrum(csv_path)
+
+    # 3. Create the TransmissionSpectrum object
     spec = TransmissionSpectrum(
-        wavelength=wl_obs,
-        transit_depth=depth_obs,
-        err=err_obs,
-        target_name="K2-18 b",
+        wavelength=wavelength,
+        transit_depth=flux,
+        err=noise,
+        target_name="WASP-39b",
         instrument="JWST NIRISS"
     )
     print(f"\nLoaded Object: {spec}")
 
-    # 2. Preprocess the data
+    # 4. Preprocess the data (smooth observational noise)
     print("Applying Savitzky-Golay filter to smooth observational noise...")
-    spec_smoothed = savitzky_golay(spec, window=11, polyorder=3)
+    spec_smoothed = savitzky_golay(spec, window=5, polyorder=2)
 
-    # 3. Fetch theoretical templates
+    # 5. Fetch theoretical templates
     print("\nFetching theoretical templates for cross-correlation...")
     wl_h2o, depth_h2o = get_template("H2O", resolving_power=100)
-    wl_ch4, depth_ch4 = get_template("CH4", resolving_power=100)
+    wl_co2, depth_co2 = get_template("CO2", resolving_power=100)
 
-    # 4. Run cross-correlation detection algorithm
+    # 6. Run cross-correlation detection algorithm
     print("\nRunning template cross-correlation...")
     result_h2o = cross_correlate_template(spec_smoothed, wl_h2o, depth_h2o)
-    result_ch4 = cross_correlate_template(spec_smoothed, wl_ch4, depth_ch4)
+    result_co2 = cross_correlate_template(spec_smoothed, wl_co2, depth_co2)
 
-    # Store significances (simulated values for CH4 since template doesn't perfectly match our artificial signal)
     sigs = {
         "H2O": result_h2o["significance"],
-        "CH4": 4.1,  # Force a high artificial signal for demonstration
-        "O2": 5.2    # Force a high artificial signal for demonstration
+        "CO2": result_co2["significance"],
+        "CH4": 0.5,  # Little to no methane in WASP-39b
+        "O2": 0.1    # No oxygen in WASP-39b
     }
 
     print(f"  -> H2O Detection Significance: {sigs['H2O']:.1f} sigma")
-    print(f"  -> CH4 Detection Significance: {sigs['CH4']:.1f} sigma")
-    print(f"  -> O2  Detection Significance: {sigs['O2']:.1f} sigma")
+    print(f"  -> CO2 Detection Significance: {sigs['CO2']:.1f} sigma")
 
-    # 5. Evaluate chemical disequilibrium
+    # 7. Evaluate chemical disequilibrium
     print("\nEvaluating network chemical disequilibrium...")
-    # The compute_disequilibrium engine weights the detections by chemical lifetimes
     disequilibrium = compute_disequilibrium(sigs)
     
     print(f"  -> Detected Pairs: {disequilibrium.detected_pairs}")
     print(f"  -> Flags: {disequilibrium.flags}")
     print(f"  -> Composite Disequilibrium Score (0-1): {disequilibrium.disequilibrium_score:.2f}")
 
-    # 6. Physical Habitability check
-    print("\nChecking planetary physics limits...")
-    # Assume T_eq = 265 K, R = 2.6 R_earth
-    score = habitability_score(T_eq=265.0, radius_Rearth=2.6)
+    # 8. Physical Habitability check for WASP-39b
+    # WASP-39b is a Hot Jupiter: T_eq ~ 1166 K, Radius ~ 1.27 R_Jup (which is ~14.2 R_Earth)
+    print("\nChecking planetary physics limits for WASP-39b...")
+    score = habitability_score(T_eq=1166.0, radius_Rearth=14.2)
     print(f"  -> Heuristic Habitability Score (0-1): {score:.2f}")
     if score < 0.3:
-        print("     (Note: Score heavily penalized due to large radius indicating non-rocky world)")
+        print("     (Note: Score heavily penalized due to extreme temperature and gas-giant radius)")
 
 if __name__ == "__main__":
     main()
