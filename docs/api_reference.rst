@@ -4,6 +4,7 @@ API Reference
 
 .. autosummary::
    :toctree: api/
+   :recursive:
 
    bioniumx.spectra
    bioniumx.datasets

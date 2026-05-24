@@ -26,6 +26,7 @@ intersphinx_mapping = {
 }
 
 autosummary_generate = True
+autosummary_imported_members = True
 numpydoc_show_class_members = False
 
 templates_path = ['_templates']
