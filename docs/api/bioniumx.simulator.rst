@@ -3,25 +3,19 @@
 
 .. automodule:: bioniumx.simulator
 
-   
-   
-   
 
-   
-   
-   
 
-   
-   
+
+
+
+
+
+
+
+
    .. rubric:: Classes
 
    .. autosummary::
       :toctree:
-   
-      SpectrumGenerator
-   
-   
 
-   
-   
-   
+      SpectrumGenerator

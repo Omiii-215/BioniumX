@@ -5,14 +5,14 @@ bioniumx.modeling.SpectralTransformer
 
 .. autoclass:: SpectralTransformer
 
-   
+
    .. automethod:: __init__
 
-   
+
    .. rubric:: Methods
 
    .. autosummary::
-   
+
       ~SpectralTransformer.__init__
       ~SpectralTransformer.add_module
       ~SpectralTransformer.apply
@@ -64,18 +64,16 @@ bioniumx.modeling.SpectralTransformer
       ~SpectralTransformer.type
       ~SpectralTransformer.xpu
       ~SpectralTransformer.zero_grad
-   
-   
 
-   
-   
+
+
+
+
    .. rubric:: Attributes
 
    .. autosummary::
-   
+
       ~SpectralTransformer.T_destination
       ~SpectralTransformer.call_super_init
       ~SpectralTransformer.dump_patches
       ~SpectralTransformer.training
-   
-   

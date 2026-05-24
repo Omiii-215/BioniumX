@@ -60,7 +60,7 @@ def habitable_zone_bounds(T_star: float, L_star: float) -> tuple:
     """
     Calculate the conservative habitable zone boundaries.
 
-    Uses the Kopparapu et al. (2013) parametric equations for the 
+    Uses the Kopparapu et al. (2013) parametric equations for the
     Recent Venus (inner edge) and Early Mars (outer edge) limits.
 
     Parameters

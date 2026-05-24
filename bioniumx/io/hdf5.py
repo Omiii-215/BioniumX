@@ -16,7 +16,7 @@ def write_object(obj, filename: str, fmt: str = "hdf5"):
                 f.create_dataset(attr, data=getattr(obj, attr))
             if hasattr(obj, "err"):
                 f.create_dataset("err", data=obj.err)
-            
+
             meta_group = f.create_group("meta")
             for k, v in obj.meta.items():
                 if v is not None:
@@ -36,11 +36,11 @@ def read_object(cls, filename: str, fmt: str = "hdf5"):
                 kwargs[attr] = f[attr][:]
             if "err" in f:
                 kwargs["err"] = f["err"][:]
-            
+
             if "meta" in f:
                 for k, v in f["meta"].attrs.items():
                     kwargs[k] = v
-                    
+
             return cls(**kwargs)
     else:
         raise NotImplementedError(f"Format {fmt} not yet implemented.")

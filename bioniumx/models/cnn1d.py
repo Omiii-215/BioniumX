@@ -23,7 +23,7 @@ class BiosignatureCNN:
     def __init__(self, in_channels: int = 1, num_classes: int = 1):
         if not HAS_TORCH:
             raise ImportError("PyTorch is required for BiosignatureCNN. Install via `pip install bioniumx[ml]`.")
-        
+
         self.model = self._build_model(in_channels, num_classes)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
@@ -67,8 +67,8 @@ class BiosignatureCNN:
 
         x = torch.tensor(spectrum_array, dtype=torch.float32).unsqueeze(0).unsqueeze(0)
         x = x.to(self.device)
-        
+
         with torch.no_grad():
             output = self.model(x)
-            
+
         return output.item()

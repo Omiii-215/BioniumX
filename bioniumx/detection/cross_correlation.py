@@ -128,19 +128,18 @@ def plot_ccf(result: dict, target_molecule: str = "", ax=None):
     ax.plot(v, ccf, color="#2c3e50", lw=1.5)
     ax.axvline(peak_v, color="#e74c3c", ls="--", lw=1.5, alpha=0.8,
                label=f"Peak: {peak_v:.1f} km/s ({sig:.1f}σ)")
-    
+
     # Highlight 0 km/s rest frame
     ax.axvline(0, color="gray", ls=":", alpha=0.5)
 
     title = "Cross-Correlation Function"
     if target_molecule:
         title += f" ({target_molecule})"
-    
+
     ax.set_title(title, pad=15)
     ax.set_xlabel("Radial Velocity Shift (km/s)")
     ax.set_ylabel("Pearson Correlation Coefficient")
     ax.legend(loc="upper right")
     ax.grid(True, alpha=0.3)
-    
-    return ax
 
+    return ax

@@ -2,7 +2,7 @@
 Bionium-X: Real JWST Data Usage Example
 ---------------------------------------
 This script demonstrates how to analyze real Exoplanet data.
-Specifically, it fetches the WASP-39b NIRISS transmission spectrum 
+Specifically, it fetches the WASP-39b NIRISS transmission spectrum
 from the JWST Early Release Science program and searches for biosignatures.
 """
 from bioniumx.datasets.fetch_real import fetch_wasp39b
@@ -61,7 +61,7 @@ def main():
     # 7. Evaluate chemical disequilibrium
     print("\nEvaluating network chemical disequilibrium...")
     disequilibrium = compute_disequilibrium(sigs)
-    
+
     print(f"  -> Detected Pairs: {disequilibrium.detected_pairs}")
     print(f"  -> Flags: {disequilibrium.flags}")
     print(f"  -> Composite Disequilibrium Score (0-1): {disequilibrium.disequilibrium_score:.2f}")

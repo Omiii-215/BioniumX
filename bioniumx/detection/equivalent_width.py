@@ -55,7 +55,7 @@ def equivalent_width(
         raise ValueError("line_min must be less than line_max")
 
     wl = spectrum.wavelength
-    
+
     if hasattr(spectrum, 'transit_depth'):
         # For transmission, depth usually goes UP for absorption lines.
         # But equivalent width is traditionally defined for flux drops.

@@ -1,7 +1,7 @@
 Installation
 ============
 
-Bionium-X requires **Python 3.9+** and can be installed via ``pip``. 
+Bionium-X requires **Python 3.9+** and can be installed via ``pip``.
 We recommend using a virtual environment (e.g., ``venv`` or ``conda``).
 
 Core Installation

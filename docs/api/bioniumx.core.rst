@@ -3,25 +3,19 @@
 
 .. automodule:: bioniumx.core
 
-   
-   
-   
 
-   
-   
-   
 
-   
-   
+
+
+
+
+
+
+
+
    .. rubric:: Classes
 
    .. autosummary::
       :toctree:
-   
-      BioniumXObject
-   
-   
 
-   
-   
-   
+      BioniumXObject

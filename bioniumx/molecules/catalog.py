@@ -20,8 +20,8 @@ def get_template(molecule: str, resolving_power: float = 100):
     """
     Get a theoretical transmission/emission template for a molecule.
 
-    This function uses the RADIS library to query the Harvard HITRAN 
-    database in real-time, computing the Voigt-broadened high-resolution 
+    This function uses the RADIS library to query the Harvard HITRAN
+    database in real-time, computing the Voigt-broadened high-resolution
     cross section at typical exoplanetary conditions (T=1000K).
 
     Parameters
@@ -47,7 +47,7 @@ def get_template(molecule: str, resolving_power: float = 100):
         raise ValueError(f"Molecule {molecule} not found in catalog.")
 
     wmin, wmax = BIOSIGNATURE_MOLECULES[molecule]["wavelength_range"]
-    
+
     # Generate a logarithmic wavelength grid based on resolving power
     n_points = int(resolving_power * np.log(wmax / wmin))
     wl_grid = np.geomspace(wmin, wmax, n_points)
@@ -76,11 +76,11 @@ def get_template(molecule: str, resolving_power: float = 100):
         pressure=0.1,  # bar (typical transit probing pressure)
         Tgas=1000.0,   # K
         databank="hitran",
-        truncation=5.0, 
+        truncation=5.0,
         neighbour_lines=5.0,
         warnings={"AccuracyError": "ignore", "MissingSelfBroadeningWarning": "ignore"}
     )
-    
+
     # Retrieve the computed spectrum arrays
     # We want wavelength (nm) and absorbance, then convert nm to um
     wl_radis, absorbance = s.get("absorbance", wunit="nm")

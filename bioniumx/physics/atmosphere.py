@@ -71,5 +71,5 @@ def scale_height(T_eq: float, mu: float, gravity: float) -> float:
 
     m_kg = mu * amu
     H = (k_B * T_eq) / (m_kg * gravity)
-    
+
     return float(H)

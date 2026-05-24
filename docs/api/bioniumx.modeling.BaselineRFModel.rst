@@ -5,14 +5,14 @@ bioniumx.modeling.BaselineRFModel
 
 .. autoclass:: BaselineRFModel
 
-   
+
    .. automethod:: __init__
 
-   
+
    .. rubric:: Methods
 
    .. autosummary::
-   
+
       ~BaselineRFModel.__init__
       ~BaselineRFModel.evaluate
       ~BaselineRFModel.load
@@ -20,9 +20,3 @@ bioniumx.modeling.BaselineRFModel
       ~BaselineRFModel.predict_proba
       ~BaselineRFModel.save
       ~BaselineRFModel.train
-   
-   
-
-   
-   
-   

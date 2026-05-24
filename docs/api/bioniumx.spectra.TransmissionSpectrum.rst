@@ -5,14 +5,14 @@ bioniumx.spectra.TransmissionSpectrum
 
 .. autoclass:: TransmissionSpectrum
 
-   
+
    .. automethod:: __init__
 
-   
+
    .. rubric:: Methods
 
    .. autosummary::
-   
+
       ~TransmissionSpectrum.__init__
       ~TransmissionSpectrum.apply_wavelength_mask
       ~TransmissionSpectrum.plot
@@ -20,9 +20,3 @@ bioniumx.spectra.TransmissionSpectrum
       ~TransmissionSpectrum.rebin
       ~TransmissionSpectrum.snr
       ~TransmissionSpectrum.write
-   
-   
-
-   
-   
-   

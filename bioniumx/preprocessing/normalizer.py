@@ -59,7 +59,7 @@ def continuum_normalize(spectrum: BioniumXObject, method: str = "polynomial", de
     # Avoid division by zero
     continuum = np.where(continuum == 0, 1.0, continuum)
     y_norm = y / continuum
-    
+
     # Error propagation
     err_norm = spectrum.err / continuum
 

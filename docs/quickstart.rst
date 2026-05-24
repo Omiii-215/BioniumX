@@ -50,7 +50,7 @@ To detect specific molecules, we cross-correlate the smoothed observational spec
 
     # Run detection
     result_h2o = cross_correlate_template(spec_smoothed, wl_h2o, depth_h2o)
-    
+
     print(f"H2O Detection Significance: {result_h2o['significance']:.1f} sigma")
 
 4. Assessing Habitability
@@ -63,7 +63,7 @@ A chemical detection must be placed into physical context. Bionium-X calculates 
 
     # Check planetary physics limits (e.g., T_eq = 265 K, R = 2.6 R_earth)
     score = habitability_score(T_eq=265.0, radius_Rearth=2.6)
-    
+
     if score < 0.3:
         print("Warning: Planet is likely a non-rocky world.")
 
@@ -78,7 +78,7 @@ If you installed the library with ``[ml]``, you can instantly infer the presence
 
     # Automatically download/cache model weights
     weights_path = fetch_model("cnn_model.pth")
-    
+
     cnn = BiosignatureCNN(in_channels=1, num_classes=5)
     cnn.load_weights(weights_path)
 

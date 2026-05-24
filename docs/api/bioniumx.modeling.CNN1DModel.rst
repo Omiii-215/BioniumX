@@ -5,14 +5,14 @@ bioniumx.modeling.CNN1DModel
 
 .. autoclass:: CNN1DModel
 
-   
+
    .. automethod:: __init__
 
-   
+
    .. rubric:: Methods
 
    .. autosummary::
-   
+
       ~CNN1DModel.__init__
       ~CNN1DModel.add_module
       ~CNN1DModel.apply
@@ -64,18 +64,16 @@ bioniumx.modeling.CNN1DModel
       ~CNN1DModel.type
       ~CNN1DModel.xpu
       ~CNN1DModel.zero_grad
-   
-   
 
-   
-   
+
+
+
+
    .. rubric:: Attributes
 
    .. autosummary::
-   
+
       ~CNN1DModel.T_destination
       ~CNN1DModel.call_super_init
       ~CNN1DModel.dump_patches
       ~CNN1DModel.training
-   
-   

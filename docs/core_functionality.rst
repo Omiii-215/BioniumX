@@ -129,7 +129,7 @@ To isolate absorption features from the baseline thermal continuum, we apply con
 Template Cross-Correlation
 --------------------------
 
-To definitively detect the presence of a molecule (e.g., Carbon Dioxide), we cross-correlate the observed spectrum against a high-resolution theoretical template. 
+To definitively detect the presence of a molecule (e.g., Carbon Dioxide), we cross-correlate the observed spectrum against a high-resolution theoretical template.
 
 Bionium-X seamlessly connects to the Harvard HITRAN API via the `radis` library to compute Voigt-broadened quantum cross-sections.
 
@@ -206,7 +206,7 @@ Finally, we can statistically compare atmospheric models using the Bayes Factor.
 
     lnZ_no_mol = -155.4
     lnZ_with_h2o = -154.2
-    
+
     K = bayes_factor(evidence_m1=lnZ_with_h2o, evidence_m2=lnZ_no_mol)
 
 .. image:: _static/bayesian_evidence.png

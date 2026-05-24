@@ -5,21 +5,15 @@ bioniumx.core.BioniumXObject
 
 .. autoclass:: BioniumXObject
 
-   
+
    .. automethod:: __init__
 
-   
+
    .. rubric:: Methods
 
    .. autosummary::
-   
+
       ~BioniumXObject.__init__
       ~BioniumXObject.apply_wavelength_mask
       ~BioniumXObject.read
       ~BioniumXObject.write
-   
-   
-
-   
-   
-   

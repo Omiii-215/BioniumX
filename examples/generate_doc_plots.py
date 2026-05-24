@@ -1,8 +1,8 @@
 """
 Generate high-quality static plots for Bionium-X documentation.
 
-This script fetches real JWST WASP-39b data, processes it, 
-and generates Matplotlib figures saved to `docs/_static/` 
+This script fetches real JWST WASP-39b data, processes it,
+and generates Matplotlib figures saved to `docs/_static/`
 so they can be embedded in the Sphinx pages.
 """
 import os
@@ -33,11 +33,11 @@ def main():
     # Ensure docs/_static exists
     out_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "docs", "_static"))
     os.makedirs(out_dir, exist_ok=True)
-    
+
     print("Fetching WASP-39b data...")
     csv_path = fetch_wasp39b()
     wavelength, flux, noise = load_spectrum(csv_path)
-    
+
     spec = TransmissionSpectrum(
         wavelength=wavelength,
         transit_depth=flux,
@@ -45,7 +45,7 @@ def main():
         target_name="WASP-39b",
         instrument="JWST/NIRISS"
     )
-    
+
     # ---------------------------------------------------------
     # Plot 1: Raw Transmission Spectrum
     # ---------------------------------------------------------
@@ -137,9 +137,9 @@ def main():
     planets = ["Earth", "Proxima b", "TRAPPIST-1e", "WASP-39b", "Kepler-22b"]
     T_eqs = [255, 234, 251, 1166, 262]
     radii = [1.0, 1.07, 0.92, 1.27 * 11.2, 2.4] # WASP-39 is Jupiter sized (~14 R_earth)
-    
+
     scores = [habitability_score(t, r) for t, r in zip(T_eqs, radii)]
-    
+
     fig, ax = plt.subplots(figsize=(8, 5))
     bars = ax.barh(planets, scores, color=['#27ae60', '#2ecc71', '#2ecc71', '#c0392b', '#f39c12'])
     ax.set_xlabel("Habitability Score (0-1)")
@@ -157,22 +157,22 @@ def main():
     # Simulated detection significances
     detections = {"O2": 4.5, "CH4": 3.8, "H2O": 6.2, "CO2": 2.1}
     diseq_res = compute_disequilibrium(detections)
-    
+
     fig, ax = plt.subplots(figsize=(8, 5))
     molecules = list(detections.keys())
     sigs = list(detections.values())
-    
+
     ax.bar(molecules, sigs, color='#34495e')
     ax.axhline(2.0, color='r', linestyle='--', label="Detection Threshold (2σ)")
-    
+
     # Annotate disequilibrium score
     text_str = f"Composite Disequilibrium Score: {diseq_res.disequilibrium_score:.2f}\n"
     text_str += f"Detected Pairs: {', '.join([f'{a}-{b}' for a,b in diseq_res.detected_pairs])}"
-    
+
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
     ax.text(0.05, 0.95, text_str, transform=ax.transAxes, fontsize=11,
             verticalalignment='top', bbox=props)
-            
+
     ax.set_ylabel("Detection Significance (σ)")
     ax.legend(loc='upper right')
     ax.set_title("Chemical Disequilibrium Network Analysis")
@@ -188,17 +188,17 @@ def main():
     lnZ_no_mol = -155.4
     lnZ_with_mol = [-154.2, -150.1, -145.8, -155.0] # H2O, CO2, CH4, CO
     mols = ["H2O", "CO2", "CH4", "CO"]
-    
+
     bayes_factors = [bayes_factor(z, lnZ_no_mol) for z in lnZ_with_mol]
     log_K = np.log10(bayes_factors)
-    
+
     fig, ax = plt.subplots(figsize=(8, 4))
     colors = ['r' if k > 0 else 'gray' for k in log_K]
     ax.bar(mols, log_K, color=colors)
     ax.axhline(0, color='black', linewidth=1)
     ax.axhline(np.log10(10), color='g', linestyle='--', alpha=0.5, label="Strong Evidence (K > 10)")
     ax.axhline(np.log10(100), color='b', linestyle='--', alpha=0.5, label="Decisive Evidence (K > 100)")
-    
+
     ax.set_ylabel(r"$\log_{10}(K)$ (Bayes Factor)")
     ax.set_title("Bayesian Model Comparison (vs Null Model)")
     ax.legend()

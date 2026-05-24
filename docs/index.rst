@@ -6,7 +6,7 @@ Bionium-X: Exoplanetary Biosignature Detection
 .. image:: https://img.shields.io/badge/Python-3.9+-blue.svg
    :target: https://www.python.org/
 
-**Bionium-X** is a rigorous, pure-Python scientific library for high-performance exoplanetary biosignature detection and atmospheric modeling. 
+**Bionium-X** is a rigorous, pure-Python scientific library for high-performance exoplanetary biosignature detection and atmospheric modeling.
 
 It provides the foundational mathematical, statistical, and machine-learning frameworks required for analyzing high-resolution transmission and emission spectra.
 

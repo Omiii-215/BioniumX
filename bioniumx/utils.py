@@ -14,7 +14,7 @@ GOODCACHE = pooch.create(
 def fetch_data(filename: str, url: str = None, known_hash: str = None) -> str:
     """
     Fetch a data file, downloading and caching it locally if it doesn't exist.
-    
+
     Parameters
     ----------
     filename : str
@@ -24,7 +24,7 @@ def fetch_data(filename: str, url: str = None, known_hash: str = None) -> str:
     known_hash : str, optional
         The SHA256 hash of the file. If None, it will download without checking the hash
         (useful during development, but should be set for production data).
-        
+
     Returns
     -------
     str

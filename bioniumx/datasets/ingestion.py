@@ -23,7 +23,7 @@ def ingest_csv(filepath):
         wavelength = df['wave'].astype(float).values
         # dppm is parts per million, convert to absolute transit depth (0 to 1)
         flux = df['dppm'].astype(float).values / 1_000_000.0
-        
+
         if 'dppm_err' in df.columns:
             noise = df['dppm_err'].astype(float).values / 1_000_000.0
         else:
