@@ -1,0 +1,4 @@
+/* Make the sphinx_rtd_theme use the full screen width */
+.wy-nav-content {
+    max-width: none !important;
+}

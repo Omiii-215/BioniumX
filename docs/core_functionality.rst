@@ -1,6 +1,6 @@
-=========================
+============================
 Core Bionium-X Functionality
-=========================
+============================
 
 Here we show how many of the core Bionium-X classes and methods work in practice. We start with basic data constructs for transmission spectra, show how to preprocess the data, and then demonstrate how to compute cross-correlation arrays for biosignature detection.
 

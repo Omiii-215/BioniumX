@@ -29,7 +29,7 @@ Why Bionium-X?
    :maxdepth: 2
    :caption: API Reference
 
-   api/modules
+   api_reference
 
 Indices and tables
 ==================
