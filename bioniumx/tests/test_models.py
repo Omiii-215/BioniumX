@@ -1,6 +1,6 @@
 import pytest
 import torch
-from bioniumx.retrieval.cnn_1d import CNN1DModel
+from bioniumx.modeling.cnn_1d import CNN1DModel
 
 def test_cnn1d_forward_pass():
     model = CNN1DModel(input_length=1000, num_classes=5)

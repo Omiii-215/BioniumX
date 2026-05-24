@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
-from bioniumx.habitability.indices import calculate_esi
-from bioniumx.thermo.disequilibrium import shomate_equation
-from bioniumx.spectra.transfer import calculate_scale_height, calculate_transit_depth_variation
+from bioniumx.habitability import calculate_esi
+from bioniumx.thermo import shomate_equation
+from bioniumx.spectra import calculate_scale_height, calculate_transit_depth_variation
 
 def test_esi_calculation():
     # ESI for Earth should be exactly 1.0

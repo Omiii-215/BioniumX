@@ -6,11 +6,11 @@ import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.model_selection import train_test_split
 
-from bioniumx.data.generator import SpectrumGenerator
-from bioniumx.data.preprocessing import preprocess_pipeline
-from bioniumx.data.features import tabularize_features
-from bioniumx.retrieval.baseline_rf import BaselineRFModel
-from bioniumx.retrieval.cnn_1d import CNN1DModel
+from bioniumx.simulator.generator import SpectrumGenerator
+from bioniumx.preprocessing import preprocess_pipeline
+from bioniumx.features import tabularize_features
+from bioniumx.modeling.baseline_rf import BaselineRFModel
+from bioniumx.modeling.cnn_1d import CNN1DModel
 
 
 def run_pipeline(n_samples=500, save_dir='saved_models'):
