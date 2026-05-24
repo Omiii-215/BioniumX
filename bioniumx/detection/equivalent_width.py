@@ -11,7 +11,7 @@ def equivalent_width(
     line_max: float,
     continuum: tuple = None,
 ):
-    """
+    r"""
     Calculate the equivalent width (EW) of a spectral absorption feature.
 
     Equivalent width is a measure of the area of a spectral line relative

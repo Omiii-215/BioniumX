@@ -107,8 +107,9 @@ def compute_disequilibrium(
             ts = DISEQUILIBRIUM_PAIRS[(mol_a, mol_b)][0]
             sig_a = molecule_detections.get(mol_a, 0.0)
             sig_b = molecule_detections.get(mol_b, 0.0)
-            # Geometric mean of significances, weighted by chemical urgency
-            pair_score = (sig_a * sig_b) ** 0.5 / (1.0 + np.log10(max(ts, 1e-9)))
+            # Geometric mean of significances, weighted by chemical urgency (shorter ts = higher weight)
+            weight = (10.0 - np.log10(max(ts, 1e-9))) / 5.0
+            pair_score = (sig_a * sig_b) ** 0.5 * weight
             pair_scores.append(pair_score)
         # Normalize to [0, 1]
         raw_score = np.tanh(np.mean(pair_scores) / 5.0)
