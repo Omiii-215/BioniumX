@@ -23,6 +23,7 @@ Why Bionium-X?
 
    installation
    quickstart
+   core_functionality
 
 .. toctree::
    :maxdepth: 2

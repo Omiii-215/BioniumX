@@ -82,8 +82,9 @@ def get_template(molecule: str, resolving_power: float = 100):
     )
     
     # Retrieve the computed spectrum arrays
-    # We want wavelength (um) and absorbance
-    wl_radis, absorbance = s.get("absorbance", wunit="um")
+    # We want wavelength (nm) and absorbance, then convert nm to um
+    wl_radis, absorbance = s.get("absorbance", wunit="nm")
+    wl_radis = wl_radis / 1000.0
 
     # Interpolate the ultra-high-resolution RADIS spectrum down to our requested resolving power
     depth_interp = np.interp(wl_grid, wl_radis, absorbance)

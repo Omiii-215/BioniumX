@@ -97,3 +97,50 @@ def cross_correlate_template(
         "peak_ccf": float(peak_ccf),
         "significance": float(significance),
     }
+
+def plot_ccf(result: dict, target_molecule: str = "", ax=None):
+    """
+    Plot the Cross-Correlation Function (CCF) from a cross_correlate_template result.
+
+    Parameters
+    ----------
+    result : dict
+        The output dictionary from `cross_correlate_template`.
+    target_molecule : str, optional
+        Name of the molecule (e.g., 'CO2') for the title.
+    ax : matplotlib.axes.Axes, optional
+        Axes to plot on.
+
+    Returns
+    -------
+    ax : matplotlib.axes.Axes
+    """
+    import matplotlib.pyplot as plt
+
+    if ax is None:
+        _, ax = plt.subplots(figsize=(8, 4))
+
+    v = result["velocity"]
+    ccf = result["ccf"]
+    peak_v = result["peak_velocity"]
+    sig = result["significance"]
+
+    ax.plot(v, ccf, color="#2c3e50", lw=1.5)
+    ax.axvline(peak_v, color="#e74c3c", ls="--", lw=1.5, alpha=0.8,
+               label=f"Peak: {peak_v:.1f} km/s ({sig:.1f}σ)")
+    
+    # Highlight 0 km/s rest frame
+    ax.axvline(0, color="gray", ls=":", alpha=0.5)
+
+    title = "Cross-Correlation Function"
+    if target_molecule:
+        title += f" ({target_molecule})"
+    
+    ax.set_title(title, pad=15)
+    ax.set_xlabel("Radial Velocity Shift (km/s)")
+    ax.set_ylabel("Pearson Correlation Coefficient")
+    ax.legend(loc="upper right")
+    ax.grid(True, alpha=0.3)
+    
+    return ax
+
