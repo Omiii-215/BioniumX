@@ -1,5 +1,5 @@
 import pytest
-from src.data.generator import SpectrumGenerator
+from bioniumx.data.generator import SpectrumGenerator
 import numpy as np
 
 def test_spectrum_generator_shapes():

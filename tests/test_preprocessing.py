@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from src.data.preprocessing import preprocess_pipeline
+from bioniumx.data.preprocessing import preprocess_pipeline
 
 def test_preprocess_pipeline():
     # Mock messy raw data

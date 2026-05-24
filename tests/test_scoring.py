@@ -1,5 +1,5 @@
 import pytest
-from src.scoring.biosignature import calculate_biosignature_score
+from bioniumx.habitability.biosignature import calculate_biosignature_score
 
 def test_high_chemical_disequilibrium():
     # Simultaneous presence of heavily reactive gases

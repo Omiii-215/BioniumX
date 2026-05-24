@@ -4,12 +4,12 @@ import os
 import torch
 import plotly.graph_objects as go
 
-from src.data.generator import SpectrumGenerator
-from src.data.preprocessing import preprocess_pipeline
-from src.data.features import tabularize_features
-from src.models.baseline_rf import BaselineRFModel
-from src.models.cnn_1d import CNN1DModel
-from src.scoring.biosignature import calculate_biosignature_score
+from bioniumx.data.generator import SpectrumGenerator
+from bioniumx.data.preprocessing import preprocess_pipeline
+from bioniumx.data.features import tabularize_features
+from bioniumx.retrieval.baseline_rf import BaselineRFModel
+from bioniumx.retrieval.cnn_1d import CNN1DModel
+from bioniumx.habitability.biosignature import calculate_biosignature_score
 
 st.set_page_config(page_title="Bionium-X Lab", layout="wide", initial_sidebar_state="expanded")
 
