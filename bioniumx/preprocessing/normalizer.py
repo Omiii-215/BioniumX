@@ -3,6 +3,7 @@ Continuum normalization for transmission and emission spectra.
 """
 import numpy as np
 from bioniumx.core import BioniumXObject
+from bioniumx.spectra import TransmissionSpectrum, EmissionSpectrum
 
 
 def continuum_normalize(spectrum: BioniumXObject, method: str = "polynomial", degree: int = 2):
@@ -62,17 +63,19 @@ def continuum_normalize(spectrum: BioniumXObject, method: str = "polynomial", de
     # Error propagation
     err_norm = spectrum.err / continuum
 
-    if hasattr(spectrum, 'transit_depth'):
-        return type(spectrum)(
+    if isinstance(spectrum, TransmissionSpectrum):
+        return TransmissionSpectrum(
             wavelength=x,
             transit_depth=y_norm,
             err=err_norm,
             **spectrum.meta
         )
-    else:
-        return type(spectrum)(
+    elif isinstance(spectrum, EmissionSpectrum):
+        return EmissionSpectrum(
             wavelength=x,
             flux=y_norm,
             err=err_norm,
             **spectrum.meta
         )
+    else:
+        raise TypeError("Spectrum must be TransmissionSpectrum or EmissionSpectrum.")

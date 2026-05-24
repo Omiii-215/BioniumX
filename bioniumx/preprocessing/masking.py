@@ -3,6 +3,7 @@ Wavelength masking and bad pixel removal.
 """
 import numpy as np
 from bioniumx.core import BioniumXObject
+from bioniumx.spectra import TransmissionSpectrum, EmissionSpectrum
 
 
 def mask_wavelength_regions(spectrum: BioniumXObject, regions: list):
@@ -33,19 +34,19 @@ def mask_wavelength_regions(spectrum: BioniumXObject, regions: list):
     for (wmin, wmax) in regions:
         mask &= ~((wl >= wmin) & (wl <= wmax))
 
-    if hasattr(spectrum, 'transit_depth'):
-        return type(spectrum)(
+    if isinstance(spectrum, TransmissionSpectrum):
+        return TransmissionSpectrum(
             wavelength=wl[mask],
             transit_depth=spectrum.transit_depth[mask],
             err=spectrum.err[mask],
             **spectrum.meta
         )
-    elif hasattr(spectrum, 'flux'):
-        return type(spectrum)(
+    elif isinstance(spectrum, EmissionSpectrum):
+        return EmissionSpectrum(
             wavelength=wl[mask],
             flux=spectrum.flux[mask],
             err=spectrum.err[mask],
             **spectrum.meta
         )
     else:
-        raise TypeError("Object must have either 'transit_depth' or 'flux' attribute.")
+        raise TypeError("Spectrum must be TransmissionSpectrum or EmissionSpectrum.")

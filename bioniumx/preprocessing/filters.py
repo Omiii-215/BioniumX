@@ -5,6 +5,7 @@ import numpy as np
 from scipy.signal import savgol_filter
 from scipy.ndimage import gaussian_filter1d
 from bioniumx.core import BioniumXObject
+from bioniumx.spectra import TransmissionSpectrum, EmissionSpectrum
 
 
 def savitzky_golay(spectrum: BioniumXObject, window: int = 11, polyorder: int = 3):
@@ -44,25 +45,24 @@ def savitzky_golay(spectrum: BioniumXObject, window: int = 11, polyorder: int = 
     if polyorder >= window:
         raise ValueError("polyorder must be less than window length.")
 
-    # Determine which array to filter based on object type
-    if hasattr(spectrum, 'transit_depth'):
+    if isinstance(spectrum, TransmissionSpectrum):
         smoothed_data = savgol_filter(spectrum.transit_depth, window, polyorder)
-        return type(spectrum)(
+        return TransmissionSpectrum(
             wavelength=spectrum.wavelength,
             transit_depth=smoothed_data,
             err=spectrum.err,
             **spectrum.meta
         )
-    elif hasattr(spectrum, 'flux'):
+    elif isinstance(spectrum, EmissionSpectrum):
         smoothed_data = savgol_filter(spectrum.flux, window, polyorder)
-        return type(spectrum)(
+        return EmissionSpectrum(
             wavelength=spectrum.wavelength,
             flux=smoothed_data,
             err=spectrum.err,
             **spectrum.meta
         )
     else:
-        raise TypeError("Object must have either 'transit_depth' or 'flux' attribute.")
+        raise TypeError("Spectrum must be TransmissionSpectrum or EmissionSpectrum.")
 
 
 def gaussian_smooth(spectrum: BioniumXObject, sigma: float = 2.0):
@@ -81,21 +81,21 @@ def gaussian_smooth(spectrum: BioniumXObject, sigma: float = 2.0):
     smoothed : BioniumXObject
         A new spectrum object with smoothed data.
     """
-    if hasattr(spectrum, 'transit_depth'):
+    if isinstance(spectrum, TransmissionSpectrum):
         smoothed_data = gaussian_filter1d(spectrum.transit_depth, sigma)
-        return type(spectrum)(
+        return TransmissionSpectrum(
             wavelength=spectrum.wavelength,
             transit_depth=smoothed_data,
             err=spectrum.err,
             **spectrum.meta
         )
-    elif hasattr(spectrum, 'flux'):
+    elif isinstance(spectrum, EmissionSpectrum):
         smoothed_data = gaussian_filter1d(spectrum.flux, sigma)
-        return type(spectrum)(
+        return EmissionSpectrum(
             wavelength=spectrum.wavelength,
             flux=smoothed_data,
             err=spectrum.err,
             **spectrum.meta
         )
     else:
-        raise TypeError("Object must have either 'transit_depth' or 'flux' attribute.")
+        raise TypeError("Spectrum must be TransmissionSpectrum or EmissionSpectrum.")
