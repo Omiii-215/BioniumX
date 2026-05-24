@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 .DS_Store
 .vscode/
+docs/_build/
+*.egg-info/
+.pytest_cache/
