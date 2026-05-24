@@ -12,3 +12,10 @@ API Reference
    bioniumx.physics
    bioniumx.molecules
    bioniumx.detection
+   bioniumx.io
+   bioniumx.modeling
+   bioniumx.models
+   bioniumx.simulator
+   bioniumx.core
+   bioniumx.exceptions
+   bioniumx.utils
