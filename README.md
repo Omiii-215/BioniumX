@@ -84,6 +84,10 @@ We welcome contributions and feedback, and we need your help! The best way to ge
 
 Even better: if you have code you'd be willing to contribute, please send a pull request or open an issue.
 
+## Documentation Standards
+
+All public methods use **Sphinx NumPy-doc** format docstrings. See `physics/atmosphere.py` for a reference example.
+
 ## Related Packages
 
 * [radis](https://radis.readthedocs.io/) provides the high-resolution theoretical absorption templates and cross-sections used by Bionium-X.
