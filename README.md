@@ -44,7 +44,7 @@ It provides:
 
 There are a number of official software packages for exoplanet transit fitting and atmospheric retrieval. However, an equivalent widely-used package does not exist for automated, end-to-end biosignature detection: to date, that has generally been done with custom scripts. Bionium-X aims not only to fill that gap, but also to provide implementations of the most advanced spectral analysis techniques available in the literature. The ultimate goal of this project is to provide the community with a package that eases the learning curve for advanced biosignature detection with a correct statistical framework.
 
-More details of current and planned capabilities are available in the [Bionium-X documentation](https://omiii-215.github.io/Bionium-X/).
+More details of current and planned capabilities are available in the [Bionium-X documentation](https://omiii-215.github.io/BioniumX/).
 
 ## Installation and Testing
 
