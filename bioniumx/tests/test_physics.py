@@ -15,6 +15,12 @@ def test_habitability_score():
     score = habitability_score(255, 1.0)
     assert score > 0.9  # Earth is highly habitable
 
+def test_habitability_score_rejects_non_physical_catalog_values():
+    assert habitability_score(255, 0.0) == 0.0
+    assert habitability_score(255, -1.0) == 0.0
+    assert habitability_score(255, np.nan) == 0.0
+    assert habitability_score(0.0, 1.0) == 0.0
+
 def test_mean_molecular_weight():
     mu = mean_molecular_weight({"H2": 0.85, "He": 0.15})
     assert 2.0 < mu < 3.0
