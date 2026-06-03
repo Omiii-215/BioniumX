@@ -128,9 +128,14 @@ def habitability_score(T_eq: float, radius_Rearth: float, mass_Mearth: float = N
     T_earth = 255.0  # Earth's equilibrium temp (albedo 0.3)
     R_earth = 1.0
 
+    if T_eq <= 0 or radius_Rearth <= 0:
+        return 0.0
+
     if mass_Mearth is None:
         # Simple M-R relation for rocky worlds (M ~ R^3.7)
         mass_Mearth = radius_Rearth ** 3.7
+    elif mass_Mearth <= 0:
+        return 0.0
 
     # Earth Similarity Index (ESI) terms
     w_T = 5.58  # Weight for temperature
