@@ -37,7 +37,5 @@ def bayes_factor(evidence_m1: float, evidence_m2: float) -> float:
     >>> print(f"Bayes factor for H2O: {K:.1f}")
     """
     delta_lnZ = evidence_m1 - evidence_m2
-    try:
-        return float(np.exp(delta_lnZ))
-    except OverflowError:
-        return float('inf')
+    result = float(np.exp(delta_lnZ))
+    return float('inf') if np.isinf(result) else result
