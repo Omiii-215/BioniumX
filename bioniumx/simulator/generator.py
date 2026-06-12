@@ -50,10 +50,19 @@ class SpectrumGenerator:
         noise = np.random.normal(0, noise_level, self.num_points)
         flux += noise
 
+        
         # Ensure flux doesn't drop below 0 unrealistically
         flux = np.clip(flux, 0, None)
 
-        return self.wavelengths, flux, noise
+        # Prevent NaN propagation: only compute transmission where SNR >= 1.0
+        snr = flux / (noise_level + 1e-10)
+        valid_mask = snr >= 1.0
+        transmission = np.zeros_like(flux)
+        transmission[valid_mask] = -np.log(
+            np.clip(flux[valid_mask], 1e-10, None)
+        )
+
+        return self.wavelengths, flux, noise, transmission, valid_mask
 
     def generate_dataset(self, n_samples=1000):
         """
@@ -78,7 +87,7 @@ class SpectrumGenerator:
                 else:
                     label[mol] = 0
 
-            wl, flux, _ = self.generate_spectrum(present)
+            wl, flux, _, _transmission, _valid_mask = self.generate_spectrum(present)
             data.append(flux)
             labels.append(label)
 
