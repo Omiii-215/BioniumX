@@ -85,8 +85,12 @@ def cross_correlate_template(
     peak_idx = np.argmax(np.abs(ccf))
     peak_velocity = velocities[peak_idx]
     peak_ccf = ccf[peak_idx]
-    # Noise from wings (|v| > 50 km/s)
-    noise_mask = np.abs(velocities) > 50
+    # Estimate noise from CCF values away from the detected peak. Excluding a
+    # window around the peak (rather than a fixed |v| > 50 cut) keeps the peak
+    # out of its own noise sample, even when it sits at a non-zero velocity.
+    # Follows Brogi & Line (2019) recommendation of ~10-20 km/s exclusion.
+    exclusion_kms = 15.0
+    noise_mask = np.abs(velocities - peak_velocity) > exclusion_kms
     noise_std = np.std(ccf[noise_mask]) if noise_mask.sum() > 5 else 1.0
     significance = abs(peak_ccf) / noise_std if noise_std > 0 else 0.0
 
@@ -98,9 +102,11 @@ def cross_correlate_template(
         "significance": float(significance),
     }
 
+
 def plot_ccf(result: dict, target_molecule: str = "", ax=None):
     """
-    Plot the Cross-Correlation Function (CCF) from a cross_correlate_template result.
+    Plot the Cross-Correlation Function (CCF) from a
+    cross_correlate_template result.
 
     Parameters
     ----------
