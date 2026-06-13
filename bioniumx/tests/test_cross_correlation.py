@@ -17,7 +17,8 @@ def _inject_spectrum(v_inject_kms, seed=0):
     template_depth = np.exp(-((wl - 1.5) ** 2) / (2 * 0.002 ** 2))
     c = 2.998e5
     wl_obs = wl / (1.0 + v_inject_kms / c)
-    depth_obs = np.interp(wl, wl_obs, template_depth) + rng.normal(0, 0.01, wl.size)
+    depth_obs = np.interp(wl, wl_obs, template_depth)
+    depth_obs = depth_obs + rng.normal(0, 0.01, wl.size)
     spec = TransmissionSpectrum(
         wavelength=wl, transit_depth=depth_obs, err=np.full(wl.size, 0.01)
     )
@@ -49,7 +50,7 @@ def test_noise_window_excludes_peak_region():
     velocities = res["velocity"]
     ccf = res["ccf"]
     peak_v = res["peak_velocity"]
-    # Reconstruct the peak-excluded noise mask and confirm the peak bin is excluded.
+    # Rebuild the peak-excluded noise mask; confirm the peak bin is excluded.
     noise_mask = np.abs(velocities - peak_v) > 15.0
     peak_idx = int(np.argmax(np.abs(ccf)))
     assert not noise_mask[peak_idx]

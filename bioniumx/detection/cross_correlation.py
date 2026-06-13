@@ -102,9 +102,11 @@ def cross_correlate_template(
         "significance": float(significance),
     }
 
+
 def plot_ccf(result: dict, target_molecule: str = "", ax=None):
     """
-    Plot the Cross-Correlation Function (CCF) from a cross_correlate_template result.
+    Plot the Cross-Correlation Function (CCF) from a
+    cross_correlate_template result.
 
     Parameters
     ----------
