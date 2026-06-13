@@ -37,6 +37,15 @@ from bioniumx.physics.habitability import (
     habitability_score,
 )
 
+# Surface biosignatures (directly imaged planets)
+from bioniumx.surface_biosignatures import (
+    vre_reflectance,
+    anoxygenic_photosynthesis_template,
+    microbial_biopigment_template,
+    rust_slope_continuum,
+    classify_bio_vs_rust,
+)
+
 __all__ = [
     "TransmissionSpectrum",
     "EmissionSpectrum",
@@ -53,4 +62,10 @@ __all__ = [
     "equilibrium_temperature",
     "habitable_zone_bounds",
     "habitability_score",
+    "vre_reflectance",
+    "anoxygenic_photosynthesis_template",
+    "microbial_biopigment_template",
+    "rust_slope_continuum",
+    "classify_bio_vs_rust",
 ]
+
