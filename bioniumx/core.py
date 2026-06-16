@@ -2,8 +2,12 @@
 BioniumXObject — Universal base class for all Bionium-X data structures.
 Modeled after Stingray's StingrayObject pattern.
 """
+from typing import List, Dict, Any, Tuple, Type, TypeVar, Optional, Union
 import numpy as np
 import warnings
+
+
+T = TypeVar('T', bound='BioniumXObject')
 
 class BioniumXObject:
     """
@@ -22,20 +26,22 @@ class BioniumXObject:
     attributes that must be set for the object to be valid.
     """
 
-    _required_attrs = []       # Override in subclasses
-    _metadata_attrs = []       # Non-array metadata fields
+    _required_attrs: List[str] = []      
+    _metadata_attrs: List[str] = []       
 
-    def __repr__(self):
-        name = self.__class__.__name__
-        attrs = {a: getattr(self, a, None) for a in self._required_attrs}
-        shape_info = {k: (v.shape if hasattr(v, 'shape') else v)
-                      for k, v in attrs.items() if v is not None}
+    def __repr__(self) -> str:
+        name: str = self.__class__.__name__
+        attrs: Dict[str, Any] = {a: getattr(self, a, None) for a in self._required_attrs}
+        shape_info: Dict[str, Union[Tuple[int, ...], Any]] = {
+            k: (v.shape if hasattr(v, 'shape') else v)
+            for k, v in attrs.items() if v is not None
+        }
         return f"<{name} | {shape_info}>"
 
-    def _validate(self):
+    def _validate(self) -> None:
         """Check all required attributes are set and consistent."""
         for attr in self._required_attrs:
-            val = getattr(self, attr, None)
+            val: Optional[Any] = getattr(self, attr, None)
             if val is None:
                 raise ValueError(
                     f"{self.__class__.__name__} requires '{attr}' to be set."
@@ -61,7 +67,7 @@ class BioniumXObject:
         write_object(self, filename, fmt=fmt)
 
     @classmethod
-    def read(cls, filename: str, fmt: str = "hdf5"):
+    def read(cls: Type[T], filename: str, fmt: str = "hdf5") -> T:
         """
         Load an object from a file.
 
@@ -84,7 +90,7 @@ class BioniumXObject:
         from bioniumx.io import read_object
         return read_object(cls, filename, fmt=fmt)
 
-    def apply_wavelength_mask(self, wl_min: float, wl_max: float):
+    def apply_wavelength_mask(self: T, wl_min: float, wl_max: float) -> T:
         """
         Return a masked copy of this object within [wl_min, wl_max] microns.
 
@@ -95,6 +101,7 @@ class BioniumXObject:
 
         Returns
         -------
-        masked : same type as self
+        masked : T
+            A masked copy retaining the subclass's specific type.
         """
         raise NotImplementedError("Subclasses must implement apply_wavelength_mask")
