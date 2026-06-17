@@ -30,12 +30,15 @@ from bioniumx.detection.bayesian import bayes_factor
 from bioniumx.molecules.catalog import BIOSIGNATURE_MOLECULES, get_template
 from bioniumx.molecules.disequilibrium import compute_disequilibrium
 
+# Assessment
+from bioniumx.assessment import assess_false_positive 
+
 # Physics
 from bioniumx.physics.habitability import (
     equilibrium_temperature,
     habitable_zone_bounds,
-    habitability_score,
-)
+    habitability_score, 
+) 
 
 __all__ = [
     "TransmissionSpectrum",
@@ -44,6 +47,7 @@ __all__ = [
     "gaussian_smooth",
     "continuum_normalize",
     "mask_wavelength_regions",
+    "assess_false_positive",  
     "cross_correlate_template",
     "equivalent_width",
     "bayes_factor",
