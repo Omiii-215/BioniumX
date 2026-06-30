@@ -37,4 +37,8 @@ html_static_path = ['_static']
 html_logo = '_static/bioniumx_logo.jpg'
 html_css_files = [
     'custom.css',
+    'timeline.css',
+]
+html_js_files = [
+    'timeline.js',
 ]
