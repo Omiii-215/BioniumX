@@ -24,6 +24,7 @@ Why Bionium-X?
    installation
    quickstart
    core_functionality
+   timeline
 
 .. toctree::
    :maxdepth: 2
